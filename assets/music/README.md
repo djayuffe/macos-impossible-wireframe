@@ -1,16 +1,23 @@
 # Optional music
 
 The demo can run from its internal BPM clock and does not require bundled audio.
-Use a different tracker module than previous demo music if you want local music while
-capturing or presenting the demo.
+For local music playback, the project fetcher uses Drozerix — **Silicon Dancer**
+(`drozerix_-_silicon_dancer.mod`), listed by the Quinlight Audio project as
+Public Domain.
 
 Suggested local layout:
 
 ```text
-assets/music/other-module.mod
-assets/music/other-module.s3m
-assets/music/other-module.xm
+assets/music/drozerix_-_silicon_dancer.mod
 ```
 
-Music files are ignored by Git. Pass timing with `--bpm`; the renderer and
-geometry are deterministic and do not depend on an audio callback.
+Music files are ignored by Git. Run:
+
+```sh
+python3 assets/music/fetch_other_music.py
+./build/impossible_wireframe --music assets/music/drozerix_-_silicon_dancer.mod --bpm 132
+```
+
+When audio support is compiled in, libopenmpt/SDL2 play the module and its RMS
+energy drives wire brightness. Without audio dependencies, the renderer falls
+back to deterministic BPM timing.

@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
-"""Optional helper stub for a non-previous demo music music module.
+"""Fetch the selected freely licensed tracker module for local runs.
 
-This project deliberately does not re-host tracker music. Put a legally usable
-MOD/S3M/XM in this directory and run the demo with a matching `--bpm`.
+Target: Drozerix — Silicon Dancer (MOD), listed by the Quinlight Audio project
+as Public Domain. The binary module remains ignored by Git; this script makes a
+local runtime copy for the OpenGL demo.
 """
 from pathlib import Path
+from urllib.request import urlopen
 
-out = Path(__file__).resolve().parent
-print(f"Place a non-previous demo music tracker module in: {out}")
-print("Example run: ./build/impossible_wireframe --bpm 132")
+URL = "https://media.githubusercontent.com/media/Kind-Computers/quinlight-audio/main/mods/drozerix_-_silicon_dancer.mod"
+OUT = Path(__file__).resolve().parent / "drozerix_-_silicon_dancer.mod"
+
+data = urlopen(URL, timeout=30).read()
+if len(data) < 1084:
+    raise SystemExit("download too small to be a ProTracker-compatible module")
+OUT.write_bytes(data)
+print(f"wrote {OUT} ({len(data)} bytes)")

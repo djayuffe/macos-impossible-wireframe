@@ -33,10 +33,18 @@ If OpenGL/GLFW are absent, CMake still builds `iw_geometry` and `geometry_tests`
 
 ## Optional music
 
-This demo does not reuse the previous demo music module. It runs from its internal BPM
-clock and can be paired with any legally usable local tracker module for
-capture/playback. Put a different module under `assets/music/` and choose a
-matching `--bpm`; music files are ignored and not uploaded.
+The included fetcher downloads Drozerix — **Silicon Dancer** (`MOD`), listed by
+the Quinlight Audio project as Public Domain:
+
+```sh
+python3 assets/music/fetch_other_music.py
+./build/impossible_wireframe --music assets/music/drozerix_-_silicon_dancer.mod --bpm 132
+```
+
+When SDL2 and libopenmpt are available, the module plays locally and its decoded
+energy drives line glow/background intensity. Without those dependencies, the
+demo remains deterministic from its BPM clock. Music files are ignored and not
+uploaded.
 
 ## Correctness gates
 Project targets compile with `-Wall -Wextra -Wpedantic -Werror` (or `/W4 /WX`). Tests assert canonical V/E/F counts for tesseract, 16-cell, 24-cell, 600-cell and V/E for the dual 120-cell; exercise every procedural family; reject non-finite vertices, invalid indices, self-edges and duplicate edges; and verify timeline beat/bar math.

@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: brew install cmake glfw
+        run: brew install cmake glfw sdl2 libopenmpt pkg-config
       - name: Configure
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DIW_BUILD_TESTS=ON
       - name: Build

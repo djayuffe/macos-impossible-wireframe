@@ -30,7 +30,8 @@ sampled or artistic numerical visualizations.
 
 ## Music/timeline
 
-The show uses a BPM clock (`--bpm`, default 132) so it can be paired with a
-different local tracker module without embedding music. The timeline emits beat,
-bar, beat phase and pulse values; geometry generation never depends on audio
-callback timing.
+The show uses a BPM clock (`--bpm`, default 132) and can optionally play the
+Public Domain `Silicon Dancer` MOD through SDL2/libopenmpt. The timeline emits
+beat, bar, beat phase and pulse values; decoded module RMS is folded into the
+visual pulse for wire brightness and background color. Geometry generation never
+depends on audio callback timing.
