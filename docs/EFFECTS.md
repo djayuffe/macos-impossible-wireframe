@@ -35,3 +35,12 @@ Public Domain `Silicon Dancer` MOD through SDL2/libopenmpt. The timeline emits
 beat, bar, beat phase and pulse values; decoded module RMS is folded into the
 visual pulse for wire brightness and background color. Geometry generation never
 depends on audio callback timing.
+
+## HDR, glimmer and background pass
+
+Wire geometry is rendered into an RGBA16F offscreen framebuffer before a shader
+composite pass. The composite adds a procedural nebula/star background, glimmer
+streaks, local bloom-like sampling around bright wire pixels, music-reactive
+color lift, vignette, grain and exponential tone mapping. This keeps the core
+geometry mathematically simple while giving the final image a brighter
+high-dynamic-range demoscene finish.
