@@ -54,9 +54,11 @@ Project targets compile with `-Wall -Wextra -Wpedantic -Werror` (or `/W4 /WX`). 
 - `AdvancedGeometry.*`: TPMS extraction, dual 120-cell, quaternion boundary lattice, hyperbolic visualization, attractors and deterministic discovery.
 - `Scene.*`: scene catalogue, provenance and update-rate cache. Expensive implicit/fractal geometry is not rebuilt at video refresh rate.
 - `Timeline.*`: deterministic BPM/beat/bar synchronization.
-- `Renderer.*`: OpenGL 4.1 indexed line renderer with checked external GLSL compilation/linking and reusable buffers.
+- `Renderer.*`: OpenGL 4.1 indexed line renderer with checked external GLSL compilation/linking, reusable buffers, RGBA16F HDR render target and shader composite.
 - `shaders/post.*`: RGBA16F HDR-style composite pass with procedural background,
   glimmer, bloom-like highlight shaping, tone mapping and music-reactive light.
+- `shaders/wire.*`: object-space wire color cycling, lighting-matrix bands and
+  music-reactive electric edge highlights.
 
 See `design.md` for mathematical provenance and design constraints.
 See `docs/EFFECTS.md` for the implemented effect catalogue.

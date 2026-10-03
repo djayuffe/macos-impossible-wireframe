@@ -44,3 +44,22 @@ streaks, local bloom-like sampling around bright wire pixels, music-reactive
 color lift, vignette, grain and exponential tone mapping. This keeps the core
 geometry mathematically simple while giving the final image a brighter
 high-dynamic-range demoscene finish.
+
+## Wire lighting matrix
+
+The wire shader now derives color from object-space position instead of using a
+flat line tint. Every edge participates in a moving color cycle, so the color
+appears to travel through the object as it rotates. Three high-frequency
+procedural lattice masks add “lighting matrix” flashes across x/y/z object
+coordinates, while three soft light sheets sweep through the mesh from different
+directions. Music RMS raises the sheet intensity, line bloom and blue electric
+lift without changing the deterministic geometry.
+
+## Shader background optimization
+
+The background remains fully procedural and single-pass, but the fractal noise
+octave count is kept low and reused for nebula, aurora and matrix-line layers.
+This avoids uploading textures or spawning extra framebuffers while still adding
+depth behind the wireframe: sparse stars, diagonal glimmer, aurora bands,
+music-reactive matrix streaks, vignette and HDR tone mapping all happen in the
+same composite shader.
