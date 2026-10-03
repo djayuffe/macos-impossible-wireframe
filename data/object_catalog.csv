@@ -1,0 +1,17 @@
+id,name,class,provenance,vertices_or_resolution,notes
+0,600-cell,exact polytope,canonical coordinates,120,720 edges / 1200 triangular faces
+1,600-cell hyperplane slice,exact derived,face-plane intersection,dynamic,topology from exact 600-cell faces
+2,Gyroid,numerical implicit,marching tetrahedra,25^3,TPMS
+3,Schwarz P,numerical implicit,marching tetrahedra,25^3,TPMS
+4,Schwarz D,numerical implicit,marching tetrahedra,24^3,TPMS
+5,Neovius,numerical implicit,marching tetrahedra,24^3,TPMS
+6,Hopf fibres,parametric,S3 stereographic projection,42x112,fibre family
+7,Boy surface,parametric,analytic immersion,84x44,self-intersecting RP2 immersion
+8,Superformula,parametric,Gielis-style radial formula,96x48,morphable
+9,120-cell,exact dual incidence,dual of generated 600-cell,600,1200 edges
+10,Clifford torus,parametric,S3 stereographic projection,56x30,4D torus
+11,Hyperbolic ball,visualization,Poincare-ball radial construction,7 shells,not a canonical honeycomb
+12,Quaternion Julia,numerical visualization,quaternion escape metric,24^3,axis-neighbour boundary lattice visualization
+13,Lissajous knot,parametric,analytic curve,1800,closed wire
+14,Lorenz attractor,numerical trajectory,RK-like Euler trajectory,14000,chaotic curve
+15,Discovered object,deterministic procedural,seeded harmonic radial field,88x44,seed serialized

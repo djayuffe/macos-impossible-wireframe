@@ -1,0 +1,52 @@
+# Impossible Wireframe OpenGL Demo
+
+C++20 / OpenGL 4.1 Core wireframe demoscene focused on mathematically unusual
+geometry. This repository turns the audited impossible-wireframe design into a
+standalone macOS-friendly demo repo with tests, provenance, CI, and a different
+optional music workflow.
+
+Copyright (c) 2026 Ulf Bertilsson. Code is MIT licensed.
+
+## Implemented scenes
+Exact/derived: 600-cell projection, exact 600-cell face-plane slice, dual-derived 120-cell projection. Parametric/numerical: Gyroid, Schwarz P/D, Neovius, Hopf fibres, Boy surface, superformula, Clifford torus, Poincare-ball-inspired structure, quaternion-Julia escape-boundary slice, Lissajous knot, Lorenz attractor, deterministic discovered surfaces.
+
+`data/object_catalog.csv` records provenance. The hyperbolic and quaternion scenes are visualizations, not claimed canonical honeycomb/fractal meshes.
+
+## Build
+macOS (Homebrew):
+```sh
+brew install cmake glfw
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j
+ctest --test-dir build --output-on-failure
+./build/impossible_wireframe --bpm 132
+```
+Linux: install a C++20 compiler, CMake, OpenGL development headers and GLFW3 development package, then use the same CMake commands.
+
+If OpenGL/GLFW are absent, CMake still builds `iw_geometry` and `geometry_tests`, allowing headless CI validation.
+
+## Controls
+- Left / Right: previous / next scene and enter manual scene mode
+- Space: return to automatic beat/bar scene sequencing
+- Escape: quit
+- `--bpm N`: synchronization tempo (default 132)
+
+## Optional music
+
+This demo does not reuse the previous demo music module. It runs from its internal BPM
+clock and can be paired with any legally usable local tracker module for
+capture/playback. Put a different module under `assets/music/` and choose a
+matching `--bpm`; music files are ignored and not uploaded.
+
+## Correctness gates
+Project targets compile with `-Wall -Wextra -Wpedantic -Werror` (or `/W4 /WX`). Tests assert canonical V/E/F counts for tesseract, 16-cell, 24-cell, 600-cell and V/E for the dual 120-cell; exercise every procedural family; reject non-finite vertices, invalid indices, self-edges and duplicate edges; and verify timeline beat/bar math.
+
+## Architecture
+- `Geometry.*`: canonical polychora, projections, slicing, base parametric surfaces, validation.
+- `AdvancedGeometry.*`: TPMS extraction, dual 120-cell, quaternion boundary lattice, hyperbolic visualization, attractors and deterministic discovery.
+- `Scene.*`: scene catalogue, provenance and update-rate cache. Expensive implicit/fractal geometry is not rebuilt at video refresh rate.
+- `Timeline.*`: deterministic BPM/beat/bar synchronization.
+- `Renderer.*`: OpenGL 4.1 indexed line renderer with checked external GLSL compilation/linking and reusable buffers.
+
+See `design.md` for mathematical provenance and design constraints.
+See `docs/EFFECTS.md` for the implemented effect catalogue.
