@@ -15,3 +15,29 @@ Mesh3 discoveredObject(uint64_t seed,unsigned u=72,unsigned v=36);
 float noveltyScore(const Mesh3& m);
 std::string implicitName(ImplicitKind k);
 }
+namespace geo {
+// v4 exotic geometry expansion (25 distinct families)
+Mesh3 mobiusStrip(unsigned u=160,unsigned v=20,float twists=1.f);
+Mesh3 kleinBottle(unsigned u=120,unsigned v=48);
+Mesh3 enneperSurface(unsigned u=80,unsigned v=36);
+Mesh3 helicoidSurface(unsigned u=96,unsigned v=32);
+Mesh3 catenoidSurface(unsigned u=96,unsigned v=32);
+Mesh3 diniSurface(unsigned u=120,unsigned v=32);
+Mesh3 pseudosphere(unsigned u=120,unsigned v=32);
+Mesh3 romanSurface(unsigned u=96,unsigned v=48);
+Mesh3 crossCap(unsigned u=96,unsigned v=48);
+Mesh3 torusKnot(unsigned samples=1800,int p=2,int q=5,float R=0.72f,float r=.28f);
+Mesh3 vivianiCurve(unsigned samples=1400);
+Mesh3 sphericalSpiral(unsigned samples=1800,float turns=13.f);
+Mesh3 hypotrochoidKnot(unsigned samples=1800,float a=5,float b=3,float h=5);
+Mesh3 duffingAttractor(unsigned samples=18000,float dt=.01f);
+Mesh3 rosslerAttractor(unsigned samples=18000,float dt=.01f);
+Mesh3 thomasAttractor(unsigned samples=18000,float dt=.02f);
+Mesh3 sierpinskiTetrahedron(unsigned depth=5);
+enum class ExoticImplicitKind { Heart, BarthSexticLike, TangleCube, ChmutovLike, CayleyCubic, KummerLike, Goursat, BlobLattice };
+Mesh3 exoticImplicit(ExoticImplicitKind kind,unsigned n=26,float phase=0.f);
+std::string exoticImplicitName(ExoticImplicitKind k);
+unsigned unknownLabCount();
+std::string unknownLabName(unsigned id);
+Mesh3 unknownLabObject(unsigned id,unsigned quality=48,float phase=0.f);
+}

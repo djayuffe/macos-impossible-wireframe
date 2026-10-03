@@ -27,6 +27,12 @@ sampled or artistic numerical visualizations.
   not claimed to be an exact extracted fractal manifold.
 - **Lissajous knot and Lorenz attractor** — motion-led mathematical trails.
 - **Discovered surface bank** — deterministic seeded harmonic radial generator.
+- **v4 exotic family pack** — Mobius strip, Klein bottle, Enneper, helicoid,
+  catenoid, Dini, pseudosphere, Roman surface, cross-cap, torus/viviani/
+  hypotrochoid curves, Duffing/Rossler/Thomas attractors, Sierpinski
+  tetrahedron and eight algebraic implicit visualizations.
+- **Unknown-lab procedural objects** — curated supercage, knot-bundle,
+  phyllotaxis, ruled and star-cage variants ported from the 49-object lab pack.
 
 ## Music/timeline
 
@@ -45,6 +51,13 @@ color lift, vignette, grain and exponential tone mapping. This keeps the core
 geometry mathematically simple while giving the final image a brighter
 high-dynamic-range demoscene finish.
 
+## Size, zoom and flyover choreography
+
+The renderer now applies a slow breathing scale, music-lifted line width,
+animated field-of-view, z-axis zoom and lateral camera flyover. The object stays
+centered enough for manual browsing, but the framing constantly changes so large
+surfaces feel like fly-through sculptures instead of static turntables.
+
 ## Wire lighting matrix
 
 The wire shader now derives color from object-space position instead of using a
@@ -61,5 +74,5 @@ The background remains fully procedural and single-pass, but the fractal noise
 octave count is kept low and reused for nebula, aurora and matrix-line layers.
 This avoids uploading textures or spawning extra framebuffers while still adding
 depth behind the wireframe: sparse stars, diagonal glimmer, aurora bands,
-music-reactive matrix streaks, vignette and HDR tone mapping all happen in the
-same composite shader.
+music-reactive matrix streaks, a layered pseudo-3D tunnel, vignette and HDR tone
+mapping all happen in the same composite shader.

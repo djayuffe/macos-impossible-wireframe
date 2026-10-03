@@ -8,7 +8,12 @@ optional music workflow.
 Copyright (c) 2026 Ulf Bertilsson. Code is MIT licensed.
 
 ## Implemented scenes
-Exact/derived: 600-cell projection, exact 600-cell face-plane slice, dual-derived 120-cell projection. Parametric/numerical: Gyroid, Schwarz P/D, Neovius, Hopf fibres, Boy surface, superformula, Clifford torus, Poincare-ball-inspired structure, quaternion-Julia escape-boundary slice, Lissajous knot, Lorenz attractor, deterministic discovered surfaces.
+The show now contains 51 validated scenes. Exact/derived scenes include the
+600-cell projection, exact 600-cell face-plane slice and dual-derived 120-cell
+projection. Parametric/numerical scenes include TPMS surfaces, Hopf fibres, Boy
+surface, superformula, Clifford torus, quaternion-Julia boundary slice,
+Lissajous and chaotic attractors, 25 v4 exotic geometry families and 10 ported
+unknown-lab procedural wire objects.
 
 `data/object_catalog.csv` records provenance. The hyperbolic and quaternion scenes are visualizations, not claimed canonical honeycomb/fractal meshes.
 
@@ -51,10 +56,10 @@ Project targets compile with `-Wall -Wextra -Wpedantic -Werror` (or `/W4 /WX`). 
 
 ## Architecture
 - `Geometry.*`: canonical polychora, projections, slicing, base parametric surfaces, validation.
-- `AdvancedGeometry.*`: TPMS extraction, dual 120-cell, quaternion boundary lattice, hyperbolic visualization, attractors and deterministic discovery.
+- `AdvancedGeometry.*`: TPMS extraction, dual 120-cell, quaternion boundary lattice, hyperbolic visualization, attractors, v4 exotic families, unknown-lab adapters and deterministic discovery.
 - `Scene.*`: scene catalogue, provenance and update-rate cache. Expensive implicit/fractal geometry is not rebuilt at video refresh rate.
 - `Timeline.*`: deterministic BPM/beat/bar synchronization.
-- `Renderer.*`: OpenGL 4.1 indexed line renderer with checked external GLSL compilation/linking, reusable buffers, RGBA16F HDR render target and shader composite.
+- `Renderer.*`: OpenGL 4.1 indexed line renderer with checked external GLSL compilation/linking, reusable buffers, RGBA16F HDR render target, shader composite, breathing size cycle, zoom and flyover camera choreography.
 - `shaders/post.*`: RGBA16F HDR-style composite pass with procedural background,
   glimmer, bloom-like highlight shaping, tone mapping and music-reactive light.
 - `shaders/wire.*`: object-space wire color cycling, lighting-matrix bands and
