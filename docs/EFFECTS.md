@@ -76,3 +76,11 @@ This avoids uploading textures or spawning extra framebuffers while still adding
 depth behind the wireframe: sparse stars, diagonal glimmer, aurora bands,
 music-reactive matrix streaks, a layered pseudo-3D tunnel, vignette and HDR tone
 mapping all happen in the same composite shader.
+
+## Overlay and branding
+
+The branding pass is composited after HDR tone mapping with alpha blending. The
+red UBER logo pulses during the intro, while the supplied red greets card and
+blue/orange Mega OpenGL Demo card cross-fade below it. Source PNGs are kept in
+`assets/branding/`; dependency-free RGBA8 derivatives in `assets/overlay/` are
+loaded directly by the OpenGL renderer.
