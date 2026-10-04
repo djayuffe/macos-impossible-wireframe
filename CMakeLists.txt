@@ -55,7 +55,9 @@ if(OpenGL_FOUND AND glfw3_FOUND)
  if(APPLE)
   target_compile_definitions(impossible_wireframe PRIVATE GL_SILENCE_DEPRECATION)
  endif()
- add_custom_command(TARGET impossible_wireframe POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:impossible_wireframe>/shaders)
+ add_custom_command(TARGET impossible_wireframe POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:impossible_wireframe>/shaders
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:impossible_wireframe>/assets)
 else()
  message(WARNING "OpenGL/glfw3 not found: renderer target disabled; geometry/tests remain buildable")
 endif()

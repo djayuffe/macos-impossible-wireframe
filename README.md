@@ -34,6 +34,18 @@ Linux: install a C++20 compiler, CMake, OpenGL development headers and GLFW3 dev
 
 If OpenGL/GLFW are absent, CMake still builds `iw_geometry` and `geometry_tests`, allowing headless CI validation.
 
+
+### Integrated logo, greets, and scroller
+
+The demo includes a GPU-composited overlay pass using the supplied UBER metal/red logo art and custom glyph sheet:
+
+- `assets/overlay/logo.png` / `.rgba`: intro logo, pulse-faded over the 3D wireframe scenes.
+- `assets/overlay/greets.png` / `.rgba`: greets panel composited with transparency.
+- `assets/overlay/font.png`: source glyph atlas.
+- `assets/overlay/scroller.png` / `.rgba`: generated metal-font scroller strip with greets and credits.
+
+The runtime uses dependency-free `.rgba` texture files generated from the PNG artwork, so packaged builds do not need image-decoder libraries. CMake copies `assets/` and `shaders/` next to the executable after build.
+
 ## Controls
 - Left / Right: previous / next scene and enter manual scene mode
 - Space: return to automatic beat/bar scene sequencing
