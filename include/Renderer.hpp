@@ -14,7 +14,7 @@ public:
 private:
  bool initPost(const std::string& shaderDir);
  bool resizeHdr(int width,int height);
- bool drawOverlays(float time,int width,int height,float musicLevel);
+ bool drawOverlays(float time,int width,int height,float musicLevel,float modelZoom);
  unsigned vao_=0,vbo_=0,ebo_=0,program_=0,postProgram_=0,postVao_=0,hdrFbo_=0,hdrTex_=0,depthRbo_=0;
  unsigned overlayProgram_=0,overlayVao_=0,overlayVbo_=0,logoTex_=0,greetsTex_=0,accentTex_=0,scrollerTex_=0;
  int edgeCount_=0,hdrW_=0,hdrH_=0,logoW_=0,logoH_=0,greetsW_=0,greetsH_=0,accentW_=0,accentH_=0,scrollerW_=0,scrollerH_=0;

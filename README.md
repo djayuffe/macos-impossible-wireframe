@@ -52,6 +52,8 @@ Its scale follows a smoothed music envelope with a fast attack and slower releas
 giving kick hits a visible push without causing jitter between audio frames.
 During the opening half-minute the mark travels in depth by breathing toward and away
 from the wireframe; it then fades cleanly so the geometry and scroller take over.
+Its base width is tied to the wireframe’s live model scale and camera zoom, keeping
+the logo and object in the same visual size relationship across scene changes.
 
 The supplied source artwork is preserved under `assets/branding/`. Runtime RGBA8
 derivatives are used so the executable does not need a PNG decoder; the greets
