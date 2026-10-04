@@ -45,6 +45,10 @@ The demo includes a GPU-composited overlay pass using the supplied UBER metal/re
 - `assets/overlay/font.png`: source glyph atlas.
 - `assets/overlay/scroller.png` / `.rgba`: generated metal-font scroller strip with greets and credits. It uses a slow accumulated UV clock, enlarged presentation, and linear filtering for readable, tear-free motion.
 
+The logo overlay is beat-reactive: chromatic energy, scanline shimmer, edge bloom,
+and procedural lightning arcs intensify with the same animated/music pulse that
+drives the 3D wireframe.
+
 The supplied source artwork is preserved under `assets/branding/`. Runtime RGBA8
 derivatives are used so the executable does not need a PNG decoder; the greets
 checkerboard matte is removed during asset preparation.
