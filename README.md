@@ -43,7 +43,7 @@ The demo includes a GPU-composited overlay pass using the supplied UBER metal/re
 - `assets/overlay/greets.png` / `.rgba`: greets panel composited with transparency.
 - `assets/overlay/accent.png` / `.rgba`: blue/orange Mega OpenGL Demo card, cross-faded into the show.
 - `assets/overlay/font.png`: source glyph atlas.
-- `assets/overlay/scroller.png` / `.rgba`: generated metal-font scroller strip with greets and credits.
+- `assets/overlay/scroller.png` / `.rgba`: generated metal-font scroller strip with greets and credits. It uses a slow accumulated UV clock, enlarged presentation, and linear filtering for readable, tear-free motion.
 
 The supplied source artwork is preserved under `assets/branding/`. Runtime RGBA8
 derivatives are used so the executable does not need a PNG decoder; the greets
