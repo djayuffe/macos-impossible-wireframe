@@ -84,3 +84,13 @@ red UBER logo pulses during the intro, while the supplied red greets card and
 blue/orange Mega OpenGL Demo card cross-fade below it. Source PNGs are kept in
 `assets/branding/`; dependency-free RGBA8 derivatives in `assets/overlay/` are
 loaded directly by the OpenGL renderer.
+
+Logo edges receive a chromatic split, scanline shimmer, bloom halo and procedural
+lightning arcs. Their intensity follows the music-reactive pulse used by the
+wireframe, making the branding feel physically connected to the 3D scene.
+
+The bottom scroller advances with an accumulated, clamped UV clock rather than
+sampling the audio time directly. This prevents visible jumps when a module
+decoder corrects its position; its speed is deliberately set for readable
+letters, and its presentation height is increased while linear texture filtering
+keeps diagonal strokes smooth.
