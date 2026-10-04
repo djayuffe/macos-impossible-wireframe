@@ -95,6 +95,10 @@ The logo also uses a slow depth illusion: its scale and vertical position move
 toward and away from the wireframe, then a smooth envelope fades it out after the
 intro so the scene remains uncluttered for the later catalogue.
 
+The overlay vertex pass applies a small spin and orthogonal shear. It samples the
+HDR wireframe texture per vertex, so bright model regions increase the twist and
+wave displacement while dark regions settle the mark.
+
 The bottom scroller advances with an accumulated, clamped UV clock rather than
 sampling the audio time directly. This prevents visible jumps when a module
 decoder corrects its position; its speed is deliberately set for readable
