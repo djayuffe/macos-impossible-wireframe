@@ -86,8 +86,10 @@ blue/orange Mega OpenGL Demo card cross-fade below it. Source PNGs are kept in
 loaded directly by the OpenGL renderer.
 
 Logo edges receive a chromatic split, scanline shimmer, bloom halo and procedural
-lightning arcs. Their intensity follows the music-reactive pulse used by the
-wireframe, making the branding feel physically connected to the 3D scene.
+lightning arcs. The overlay samples the HDR wireframe buffer itself: bright edges
+raise the logo flash, lightning energy and blend alpha, while the shared music
+pulse supplies the timing. This makes the branding react to what is actually on
+screen rather than merely running as a separate animation.
 
 The bottom scroller advances with an accumulated, clamped UV clock rather than
 sampling the audio time directly. This prevents visible jumps when a module
