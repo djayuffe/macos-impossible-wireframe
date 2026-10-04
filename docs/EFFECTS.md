@@ -91,6 +91,10 @@ raise the logo flash, lightning energy and blend alpha, while the shared music
 pulse supplies the timing. This makes the branding react to what is actually on
 screen rather than merely running as a separate animation.
 
+The logo also uses a slow depth illusion: its scale and vertical position move
+toward and away from the wireframe, then a smooth envelope fades it out after the
+intro so the scene remains uncluttered for the later catalogue.
+
 The bottom scroller advances with an accumulated, clamped UV clock rather than
 sampling the audio time directly. This prevents visible jumps when a module
 decoder corrects its position; its speed is deliberately set for readable

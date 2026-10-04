@@ -56,9 +56,11 @@ bool Renderer::drawOverlays(float t,int width,int height,float musicLevel){
  // release more slowly so the logo feels heavy instead of jittering.
  if(logoLastTime_<0.f||t<logoLastTime_||t-logoLastTime_>1.f) logoLastTime_=t;
  else {float dt=std::clamp(t-logoLastTime_,0.f,.08f);float target=std::clamp(musicLevel,0.f,1.f);float rate=target>logoLevel_?12.f:4.5f;logoLevel_+=(target-logoLevel_)*(1.f-std::exp(-rate*dt));logoLastTime_=t;}
- float pulse=1.f+.035f*std::sin(t*4.2f)+.22f*logoLevel_+.06f*logoLevel_*std::sin(t*9.1f);
+ float travel=.5f+.5f*std::sin(t*.62f-1.1f); // 0 = receding into the wireframe, 1 = foreground hit
+ float pulse=.84f+.28f*travel+.035f*std::sin(t*4.2f)+.22f*logoLevel_+.06f*logoLevel_*std::sin(t*9.1f);
+ float logoFade=1.f-smoother(22.f,31.f,t);
  float intro=smoother(.15f,1.4f,t)*(1.f-.55f*smoother(10.f,18.f,t));
- float logoW=.94f;float logoH=logoW*(float(logoH_)/float(std::max(1,logoW_)))*aspect;quad(logoTex_,0.f,.49f,logoW*pulse,logoH*pulse,std::min(1.f,intro+.22f),0.f,1.f,1.12f,1.04f,1.f,.92f+.08f*logoLevel_);
+ float logoW=.94f;float logoH=logoW*(float(logoH_)/float(std::max(1,logoW_)))*aspect;float logoY=.49f+.035f*std::sin(t*.62f-1.1f);quad(logoTex_,0.f,logoY,logoW*pulse,logoH*pulse,std::min(1.f,intro+.22f)*logoFade,0.f,1.f,1.12f,1.04f,1.f,.92f+.08f*logoLevel_);
  float greetsW=.86f;float greetsH=greetsW*(float(greetsH_)/float(std::max(1,greetsW_)))*aspect;
  // Cross-fade the supplied red greets card with the blue/orange Mega OpenGL card.
  // The slow cycle keeps both marks readable while making the branding part of the show.
