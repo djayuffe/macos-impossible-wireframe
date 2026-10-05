@@ -2,6 +2,10 @@
 in vec2 uv;
 out vec4 FragColor;
 uniform sampler2D uScene;
+uniform sampler2D uBloom;
+uniform bool uBloomOn;
+uniform bool uBackground;
+uniform float uExposure;
 uniform vec2 uResolution;
 uniform float uTime;
 uniform float uMusicLevel;
@@ -17,23 +21,17 @@ float tunnelLayer(vec2 p,float z,float twist){
   float r=length(q);
   float ribs=pow(.5+.5*sin(a*18.0+z*7.0),18.0);
   float rings=pow(.5+.5*sin(r*18.0-z*5.5),22.0);
-  return (ribs*.55+rings*.45)*smoothstep(1.95,.18,r);
+  return (ribs*.55+rings*.45)*(1.-smoothstep(.18,1.95,r));
 }
 
 void main(){
-  vec2 px=1.0/max(uResolution,vec2(1));
   vec2 p=(uv*2.-1.)*vec2(uResolution.x/max(uResolution.y,1.),1.);
   vec3 scene=texture(uScene,uv).rgb;
 
-  vec3 bloom=vec3(0);
-  bloom+=texture(uScene,uv+vec2( px.x*1.5,0)).rgb;
-  bloom+=texture(uScene,uv+vec2(-px.x*1.5,0)).rgb;
-  bloom+=texture(uScene,uv+vec2(0, px.y*1.5)).rgb;
-  bloom+=texture(uScene,uv+vec2(0,-px.y*1.5)).rgb;
-  bloom+=texture(uScene,uv+vec2( px.x*3.5, px.y*2.5)).rgb;
-  bloom+=texture(uScene,uv+vec2(-px.x*3.5,-px.y*2.5)).rgb;
-  bloom/=6.;
+  vec3 bloom=uBloomOn?texture(uBloom,uv).rgb:vec3(0.);
 
+  vec3 bg=vec3(0.);
+  if(uBackground) {
   float n=fbm(p*1.7+uTime*.035);
   float n2=fbm(p*3.1+vec2(uTime*.05,-uTime*.025));
   float star=step(.996,hash(floor((p+2.)*vec2(120.,70.)+floor(uTime*.25))));
@@ -49,20 +47,21 @@ void main(){
   }
   float glimmer=pow(max(0.,sin((p.x*23.-p.y*17.)+uTime*(2.2+uMusicLevel*3.))),28.)*
                 smoothstep(.15,1.6,length(p))*(.03+.13*uMusicLevel);
-  vec3 bg=vec3(.0015,.003,.013);
+  bg=vec3(.0015,.003,.013);
   bg+=pal(n*.32+uTime*.015)*neb;
   bg+=pal(p.y*.08+uTime*.035+n2*.15)*aurora*(.045+.16*uMusicLevel);
   bg+=vec3(.35,.55,1.2)*(star*.22+grid);
   bg+=pal(uTime*.04+n2*.18+length(p)*.045)*tunnel*(.08+.22*uMusicLevel);
   bg+=pal(uTime*.06+p.x*.025)*(matrixX+matrixY)*(.018+.075*uMusicLevel);
   bg+=pal(uTime*.05+.3)*glimmer;
+  }
 
   vec3 hdr=bg+scene*1.35+bloom*(.55+uMusicLevel*1.15);
-  hdr+=pal(length(p)*.08+uTime*.02)*pow(max(scene.r,max(scene.g,scene.b)),2.2)*(.45+uMusicLevel);
   float vign=1.-smoothstep(.55,1.85,length(p*vec2(.82,1.)));
   hdr*=max(.34,vign);
-  hdr+=((hash(gl_FragCoord.xy+floor(uTime*60.))-.5)*.025);
-  vec3 mapped=vec3(1.)-exp(-max(hdr,0.)*(1.12+.55*uMusicLevel));
-  mapped=pow(mapped,vec3(.86));
+  vec3 mapped=vec3(1.)-exp(-max(hdr,0.)*(1.12+.55*uMusicLevel)*uExposure);
+  mapped=mix(mapped*12.92,1.055*pow(mapped,vec3(1./2.4))-.055,step(vec3(.0031308),mapped));
+  // Display-space dither: linear-space noise is amplified in dark regions.
+  mapped+=(hash(gl_FragCoord.xy+floor(uTime*60.))-.5)/255.;
   FragColor=vec4(mapped,1);
 }

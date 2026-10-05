@@ -1,6 +1,7 @@
 #include "Geometry.hpp"
 #include "AdvancedGeometry.hpp"
 #include "Timeline.hpp"
+#include "Scene.hpp"
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -21,5 +22,14 @@ int main(){
  for(unsigned i=0;i<geo::unknownLabCount();++i)mesh(geo::unknownLabObject(i,24,.3f),geo::unknownLabName(i).c_str());
  req(geo::noveltyScore(geo::discoveredObject(1,24,12))>0,"novelty finite positive");
  Timeline tl(120);auto s=tl.sample(.5);req(s.beatIndex==1&&std::fabs(s.beatPhase)<.001f,"timeline beat");req(s.barIndex==0&&s.barPhase>.24f&&s.barPhase<.26f,"timeline bar");
+ SceneSystem scenes;
+ scenes.mesh(0,0.,42);auto rev=scenes.revision();
+ scenes.mesh(0,.001,42);req(scenes.revision()==rev,"cached scene avoids redundant upload");
+ scenes.mesh(0,.1,42);req(scenes.revision()>rev,"deforming scene requests new GPU upload");
+ scenes.mesh(15,0.,42);auto original=scenes.mesh(15,0.,42).v;rev=scenes.revision();
+ auto changed=scenes.mesh(15,0.,43).v;req(scenes.revision()>rev,"seed invalidates scene cache");
+ bool differs=original.size()!=changed.size();
+ for(size_t i=0;!differs&&i<original.size();++i)differs=original[i].x!=changed[i].x||original[i].y!=changed[i].y||original[i].z!=changed[i].z;
+ req(differs,"seed change actually changes geometry");
  std::cout<<"geometry_tests: PASS; exact 120-cell V="<<c120.v.size()<<" E="<<c120.e.size()<<"\n";
 }

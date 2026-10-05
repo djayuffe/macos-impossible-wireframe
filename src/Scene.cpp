@@ -24,7 +24,7 @@ const SceneInfo& SceneSystem::info(int id)const{return S[std::clamp(id,0,int(S.s
 int SceneSystem::count()const{return int(S.size());}
 const Mesh3& SceneSystem::mesh(int id,double seconds,uint64_t seed){
  id=std::clamp(id,0,count()-1);auto& si=info(id);uint64_t tick=si.dynamic?uint64_t(std::floor(std::max(0.0,seconds)*si.updateHz)):0;
- if(id==cachedId_&&tick==cachedTick_) return cache_;
+ if(id==cachedId_&&tick==cachedTick_&&seed==cachedSeed_) return cache_;
  float t=float(seconds);
  switch(id){case 0:cache_=geo::project4D(c600_,t*.17f,t*.29f,3.4f,t*.09f,t*.13f);break;case 1:cache_=geo::sliceFaces4D(c600_,{.31f,.47f,.59f,.57f},std::sin(t*.31f)*1.45f);break;
  case 2:cache_=geo::implicitSurface(geo::ImplicitKind::Gyroid,25,std::sin(t*.22f)*.25f,t*.08f);break;case 3:cache_=geo::implicitSurface(geo::ImplicitKind::SchwarzP,25,0,t*.1f);break;case 4:cache_=geo::implicitSurface(geo::ImplicitKind::SchwarzD,24,0,t*.08f);break;case 5:cache_=geo::implicitSurface(geo::ImplicitKind::Neovius,24,0,t*.07f);break;
@@ -33,5 +33,5 @@ const Mesh3& SceneSystem::mesh(int id,double seconds,uint64_t seed){
  case 12:cache_=geo::quaternionJulia(24,8,.055f,{-.2f,.7f,.05f*std::sin(t*.1f),0});break;case 13:cache_=geo::lissajousKnot(1800,3,4,7,.4f+t*.03f);break;case 14:cache_=geo::strangeAttractor(14000,.004f);break;case 15:cache_=geo::discoveredObject(seed+tick,88,44);break;
  case 16:cache_=geo::mobiusStrip();break;case 17:cache_=geo::kleinBottle();break;case 18:cache_=geo::enneperSurface();break;case 19:cache_=geo::helicoidSurface();break;case 20:cache_=geo::catenoidSurface();break;case 21:cache_=geo::diniSurface();break;case 22:cache_=geo::pseudosphere();break;case 23:cache_=geo::romanSurface();break;case 24:cache_=geo::crossCap();break;case 25:cache_=geo::torusKnot(1800,3,7,.72f,.28f);break;case 26:cache_=geo::vivianiCurve();break;case 27:cache_=geo::sphericalSpiral();break;case 28:cache_=geo::hypotrochoidKnot(1800,5,3,5+.3f*std::sin(t*.2f));break;case 29:cache_=geo::duffingAttractor();break;case 30:cache_=geo::rosslerAttractor();break;case 31:cache_=geo::thomasAttractor();break;case 32:cache_=geo::sierpinskiTetrahedron(5);break;case 33:cache_=geo::exoticImplicit(geo::ExoticImplicitKind::Heart,25,t*.1f);break;case 34:cache_=geo::exoticImplicit(geo::ExoticImplicitKind::BarthSexticLike,25);break;case 35:cache_=geo::exoticImplicit(geo::ExoticImplicitKind::TangleCube,25,t*.1f);break;case 36:cache_=geo::exoticImplicit(geo::ExoticImplicitKind::ChmutovLike,25);break;case 37:cache_=geo::exoticImplicit(geo::ExoticImplicitKind::CayleyCubic,25);break;case 38:cache_=geo::exoticImplicit(geo::ExoticImplicitKind::KummerLike,25);break;case 39:cache_=geo::exoticImplicit(geo::ExoticImplicitKind::Goursat,25);break;case 40:cache_=geo::exoticImplicit(geo::ExoticImplicitKind::BlobLattice,25,t*.12f);break;
  case 41:case 42:case 43:case 44:case 45:case 46:case 47:case 48:case 49:case 50:cache_=geo::unknownLabObject(unsigned(id-41),56,t);break;default:cache_=geo::discoveredObject(seed+tick,88,44);break;}
- cachedId_=id;cachedTick_=tick;return cache_;
+ cachedId_=id;cachedTick_=tick;cachedSeed_=seed;++revision_;return cache_;
 }

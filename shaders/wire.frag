@@ -2,6 +2,8 @@
 in float vDepth;
 in vec3 vObject;
 in vec2 vNdc;
+noperspective in float vAcross;
+uniform float uLineWidth;
 
 out vec4 FragColor;
 uniform float uTime;
@@ -43,5 +45,7 @@ void main(){
   vec3 color=(base+electric)*pulse*vDepth*(.62+rim*.55);
   color+=vec3(.12,.34,1.0)*matrixB*music*.75;
 
-  FragColor=vec4(color,1.0);
+  float coverage=1.-smoothstep(max(0.,uLineWidth*.5-.5),uLineWidth*.5+.5,abs(vAcross));
+  if(coverage<=.001) discard;
+  FragColor=vec4(color,coverage);
 }

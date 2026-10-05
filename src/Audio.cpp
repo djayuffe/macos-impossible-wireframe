@@ -43,6 +43,7 @@ bool AudioPlayer::open(const std::filesystem::path& path) {
     return false;
   }
   rate_ = got.freq;
+  openmpt_module_set_repeat_count(module_, -1);
   SDL_PauseAudioDevice(device_, 0);
   return true;
 #else
@@ -101,7 +102,8 @@ void AudioPlayer::render(float* out, int frames) {
   for (int i = 0; i < frames * 2; ++i) sum += double(out[i]) * double(out[i]);
   const float rms = static_cast<float>(std::sqrt(sum / std::max(1, frames * 2)));
   level_.store(std::clamp(rms * 4.0f, 0.0f, 1.0f));
-  seconds_.store(openmpt_module_get_position_seconds(module_));
+  // Continuous transport survives module loops and end-of-song silence.
+  seconds_.store(seconds_.load() + double(frames) / double(rate_));
   order_.store(int(openmpt_module_get_current_order(module_)));
   pattern_.store(int(openmpt_module_get_current_pattern(module_)));
   row_.store(int(openmpt_module_get_current_row(module_)));

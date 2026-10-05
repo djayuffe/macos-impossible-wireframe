@@ -9,6 +9,8 @@ public:
  const SceneInfo& info(int id) const;
  int count() const;
  const Mesh3& mesh(int id,double seconds,uint64_t seed);
+ uint64_t revision() const { return revision_; }
 private:
+ uint64_t revision_=0,cachedSeed_=0;
  Polytope4 c600_,c120_; Mesh3 cache_; int cachedId_=-1; uint64_t cachedTick_=~uint64_t(0);
 };

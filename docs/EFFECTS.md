@@ -46,8 +46,8 @@ depends on audio callback timing.
 
 Wire geometry is rendered into an RGBA16F offscreen framebuffer before a shader
 composite pass. The composite adds a procedural nebula/star background, glimmer
-streaks, local bloom-like sampling around bright wire pixels, music-reactive
-color lift, vignette, grain and exponential tone mapping. This keeps the core
+streaks, half-resolution thresholded Gaussian bloom, music-reactive
+color lift, vignette, display-space dither and exponential tone mapping. This keeps the core
 geometry mathematically simple while giving the final image a brighter
 high-dynamic-range demoscene finish.
 
@@ -80,8 +80,8 @@ mapping all happen in the same composite shader.
 ## Overlay and branding
 
 The branding pass is composited after HDR tone mapping with alpha blending. The
-red UBER logo pulses during the intro, while the supplied red greets card and
-blue/orange Mega OpenGL Demo card cross-fade below it. Source PNGs are kept in
+first red UBER logo pulses during the intro. No greets card or alternate logo
+is rendered; greetings appear in the scroller text. Source PNGs are kept in
 `assets/branding/`; dependency-free RGBA8 derivatives in `assets/overlay/` are
 loaded directly by the OpenGL renderer.
 
@@ -95,12 +95,33 @@ The logo also uses a slow depth illusion: its scale and vertical position move
 toward and away from the wireframe, then a smooth envelope fades it out after the
 intro so the scene remains uncluttered for the later catalogue.
 
-The overlay vertex pass applies a small spin and orthogonal shear. It samples the
-HDR wireframe texture per vertex, so bright model regions increase the twist and
-wave displacement while dark regions settle the mark.
+The overlay vertex pass rotates each card about its own centre in pixel space.
+The fragment pass samples the HDR wireframe using screen coordinates to modulate
+lightning and glow without coupling the image to arbitrary texture coordinates.
 
 The bottom scroller advances with an accumulated, clamped UV clock rather than
 sampling the audio time directly. This prevents visible jumps when a module
 decoder corrects its position; its speed is deliberately set for readable
 letters, and its presentation height is increased while linear texture filtering
-keeps diagonal strokes smooth.
+and mipmap texture filtering keep diagonal strokes smooth. Each glyph has its
+own crop and advance, with padded cells preventing neighbour bleed. Twelve
+subdivisions per glyph carry a vertex sine wave without changing its UV crop
+or clipping its top and bottom. The viewport aspect ratio keeps letters proportional.
+
+## GPU wire coverage and depth
+
+Every indexed edge is clipped against the near plane and expanded by a geometry
+shader into a screen-space ribbon. Smooth fragment coverage antialiases the two
+sides. This provides consistent width even on drivers whose native wide-line
+range is limited. Depth testing compares wires with other wires; the meshes do
+not contain filled faces and do not provide hidden-surface removal. `D` disables
+depth testing for a wire x-ray view.
+
+## Bloom and display conversion
+
+The linear RGBA16F wire buffer feeds two half-size RGBA16F targets. Four
+alternating horizontal/vertical passes extract highlights above 1.0 and spread
+them with a separable Gaussian. The composite combines scene, bloom and
+background, applies exposure and exponential tone mapping, then explicitly
+encodes sRGB. Low-amplitude dither is added after encoding to avoid magnifying
+noise in dark areas. Branding uses display-space RGBA8 artwork after tone mapping.
